@@ -1,0 +1,70 @@
+extends layout
+
+block content
+
+    div
+        a#back Go back
+
+    div
+        h2 TGLSP0 Partition Runs status page
+
+        h3 Last Updated at : #{lastupdate}
+
+    div
+        input(type='text', id="rawsearch" ,placeholder= "Type to search...")
+        button.btn.btn-primary(id="clear_raw_filter", type='button') Clear Filter
+        button.btn.btn-primary(id="running_filter", type='button') Running
+        button.btn.btn-primary(id="waiting_filter", type='button') Waiting
+        button.btn.btn-primary(id="failed_filter", type='button') Failed
+        button.btn.btn-primary(id="killed_filter", type='button') Killed
+
+    div
+
+
+        table.table.table-striped
+            thead
+                tr
+                    th.dropdown-container(style='width: 15%') Partition
+                        //- i.fas.fa-times-circle(data-toogle="tooltip", title="Close Filters")
+                        i.fas.fa-caret-square-down(id="addfilter", data-toogle="tooltip", title="Filter partitions")
+                        .dropdown-list(style='display: none; width: 12%')
+                            //- button.btn.btn-primary(id="clearfilter", type='button', style='margin-top:5px') Clear Selection
+                            .dropdown-search
+                            ul
+
+                    for tool in Tools
+                        th #{tool}
+
+            tbody
+                for key, part in testing
+                    tr
+                        td #{part}
+                            i.fas.fa-copy.fa.copytext(data-clipboard-text=key['disk']+part, data-toogle="tooltip", title="Copy ward path")
+                        
+                        for tool in Tools
+
+                            if 'Done' == key[tool]
+                                td.done(style='text-align:center') #{key[tool]}
+
+                            else if 'Not Submitted' == key[tool]
+                                td.NotSubmitted(style='text-align:center') #{key[tool]}
+
+                            else if (key[tool].search("Fail") != -1 | key[tool].search("Kill") != -1)
+                                td.failed(style='text-align:center') #{key[tool]}
+
+                            else if (key[tool].search("Running") != -1)
+                                td.running(style='text-align:center') #{key[tool]}
+
+                            else if (key[tool].search("Waiting") != -1)
+                                td.waiting(style='text-align:center') #{key[tool]}
+
+                            else
+                                td(style='text-align:center') #{key[tool]}
+
+    script(type='text/javascript', src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+    script(type="text/javascript", src="https://milankyncl.github.io/jquery-copy-to-clipboard/jquery.copy-to-clipboard.js")
+    script(src="searchfilter.js")
+    script(src='copytext.js')
+    script(src="../loadviolations.js")
+    script.
+        $('[data-toggle="tooltip"]').tooltip();

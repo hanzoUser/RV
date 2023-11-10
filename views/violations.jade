@@ -1,0 +1,62 @@
+extends layout
+
+block content
+
+
+    div
+        if version == "LVMTLCA0"
+            a(id="back", href="/lvindicatormtlsocna0") Go back
+        else if  version == "LVMTLSOCNA0"
+            a(id="back", href="/lvindicatormtlsocna0") Go back
+        else if  version == "RVMTLCA0"
+            a(id="back", href="/rvindicatormtlca0") Go back
+        else if  version == "RVMTLCP0"
+            a(id="back", href="/rvindicatormtlcp0") Go back
+        else if  version == "RVMTLCB0"
+            a(id="back", href="/rvindicatormtlcb0") Go back
+        else if  version == "RVMTLCC0"
+            a(id="back", href="/rvindicatormtlcc0") Go back
+        else if  version == "RVMTLCR0"
+            a(id="back", href="/rvindicatormtlcr0") Go back
+        else if  version == "RVMTLCS0"
+            a(id="back", href="/rvindicatormtlcs0") Go back
+        else if  version == "RVMTLSOCNA0"
+            a(id="back", href="/rvindicatormtlsocna0") Go back
+        else if  version == "RVMTLSOCNB0"
+            a(id="back", href="/rvindicatormtlsocnb0") Go back
+        else if  version == "RVMTLSOCNC0"
+            a(id="back", href="/rvindicatormtlsocnc0") Go back
+        else if  version == "RVMTLSOCNK0"
+            a(id="back", href="/rvindicatormtlsocnk0") Go back
+        else if  version == "RVMTLSOCNB0INDU"
+            a(id="back", href="/rvindicatormtlsocnb0indu") Go back
+        else if  version == "RVMTLSOCSNA0"
+            a(id="back", href="/rvindicatormtlsocsna0") Go back
+        else if  version == "RVMTLSOCSNB0"
+            a(id="back", href="/rvindicatormtlsocsnb0") Go back
+        else if  version == "RVMTLSOCSNR0"
+            a(id="back", href="/rvindicatormtlsocsnr0") Go back
+        else if  version == "RVARLCPXA0"
+            a(id="back", href="/rvindicatorarlca0") Go back
+        else if  version == "RVARLCB0"
+            a(id="back", href="/rvindicatorarlcb0") Go back
+        else if  version == "RVARLCPA0"
+            a(id="back", href="/rvindicatorarlcpa0") Go back
+        else if  version == "RVARLCPB0"
+            a(id="back", href="/rvindicatorarlcpb0") Go back
+        else if  version == "RVARLCJ0"
+            a(id="back", href="/rvindicatorarlcj0") Go back
+        else if  version == "RVARLCR0"
+            a(id="back", href="/rvindicatorarlcr0") Go back
+        else if  version == "RVPTLA0"
+            a(id="back", href="/rvindicatorptla0") Go back
+        else
+            a(id="back", href="/") Go back
+
+    div 
+        h2 #{header} (#{version})
+
+    div
+        pre #{violation_content}
+
+    script(src="../../loadviolations.js")

@@ -1,0 +1,92 @@
+extends layout
+
+//-JQUERY should call api to store and load data
+block content
+
+    div.container(style='width: 1200px')
+        h3 Edit RV TGLB0 queue 
+
+        button.btn.btn-primary(id='save', type="button", style='margin-bottom:10px; font-size: 14px; padding: 5px 15px;') Save
+        button.btn.btn-primary(id='reload', type="button", style='margin:0px 0px 10px 10px; font-size: 14px; padding: 5px 15px;') Reload
+        div.panel.panel-default
+            div.panel-heading
+                div.panel-title(style='margin: 5px 0px;') #{filepath}
+                        span(id='showsave', style='font-style:italic; display: None; font-weight: bold; float: right;') SAVED!
+            div.panel-body
+                div(id='editor1', style="height: 700px;")
+
+    script(type='text/javascript', src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/theme-monokai.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ext-beautify.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/mode-json.js')
+
+    script.
+
+        var aceeditor = ace.edit("editor1")
+        aceeditor.resize(true);
+        aceeditor.setOptions({
+            fontSize: "12pt",
+            showInvisibles: true,
+            showPrintMargin: true,
+            tabSize: 4,
+            wrap: true,
+            useSoftTabs: true
+        })
+        var beautify = ace.require("ace/ext/beautify")
+        aceeditor.setTheme('ace/theme/monokai')
+        aceeditor.getSession().setMode("ace/mode/json");
+        beautify.beautify(aceeditor.session);
+
+        $.getJSON('/editrvqueuejson', {}, function(data){
+            aceeditor.getSession().setValue(JSON.stringify(data, null, 4));
+        });
+
+        $(document).on('click', '#reload', reloadjson);
+        function reloadjson(){
+            if (confirm("Are you sure you want to reload?")){
+                $.getJSON('/editrvqueuejson', {}, function(data){
+                    aceeditor.getSession().setValue(JSON.stringify(data, null, 4));
+                    alert("File reloaded")
+                });
+            }
+            else{
+                alert("File not reloaded")
+            }
+        }
+
+        $(document).on('click', '#save', savejson);
+        function savejson(){
+            var jsonstore = JSON.parse(aceeditor.getSession().getValue());
+            console.log(jsonstore)
+            $.ajax({
+                url: '/editrvqueuejson',
+                type: 'POST',
+                data: JSON.stringify(jsonstore),
+                contentType: 'application/json',
+                //- headers: { 'Content-Type': 'application/json'},
+                success: $('#showsave').show(1, function(){
+                    $('#showsave').delay(3000).hide(1)
+                })
+            });
+        };
+
+        //- setInterval(autosavejson, 25000);
+        //- function autosavejson(){
+        //-     if (aceeditor.getSession().getValue().length == 0){
+        //-         console.log("Nothing on screen!")
+        //-     }
+        //-     else{
+        //-         var jsonstore = JSON.parse(aceeditor.getSession().getValue());
+        //-         $.ajax({
+        //-             url: '/editrvqueuejson',
+        //-             type: 'POST',
+        //-             data: JSON.stringify(jsonstore),
+        //-             contentType: 'application/json',
+        //-             //- headers: { 'Content-Type': 'application/json'},
+        //-             success: $('#showsave').show(1, function(){
+        //-                 $('#showsave').delay(3000).hide(1)
+        //-             })
+        //-         });
+        //-     }
+        //- }

@@ -1,0 +1,4 @@
+{
+    "status_file_path" : "/var/vcap/data/ddgmdproject",
+    "local_setup": false
+}

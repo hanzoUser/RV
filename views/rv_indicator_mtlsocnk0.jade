@@ -1,0 +1,315 @@
+extends layout
+
+block content
+
+    div
+        a(id="back", href="/") Go back
+
+    div
+        h2 MTLSOCNK0 RV Partition Indicators
+        h3 Last Updated at : #{lastupdate}
+        h3 Data extracted from : #{datapath}
+
+    div
+        input(type='text', id="rawsearch" ,placeholder= "Type to search...")
+        button.btn.btn-primary(id="clear_raw_filter", type='button') Clear Filter 
+        button.btn.btn-primary(id="atom", type='button') atom
+        button.btn.btn-primary(id="chassis", type='button') chassis
+        button.btn.btn-primary(id="ddrphy", type='button') ddrphy
+        button.btn.btn-primary(id="disp", type='button') disp
+        button.btn.btn-primary(id="hac", type='button') hac
+        button.btn.btn-primary(id="ipu", type='button') ipu
+        button.btn.btn-primary(id="media", type='button') media
+        button.btn.btn-primary(id="memss", type='button') memss
+        button.btn.btn-primary(id="vpu", type='button') vpu
+
+    div
+
+        table.table.table-striped(id="tablervmtlsocnb")
+            thead
+                tr
+                    th.indicators(style="width:155px") Partition
+                    - var table1count
+                    - table1count = 0
+                    - console.log(Tools)
+                    for tool in Tools
+                        - table1count = table1count + 1
+                        - console.log(tool)
+                        if tool.indexOf("Ungated") != -1
+                            - var tool_disp = tool.slice(14)
+                            th.indicators UDVD >= #{tool_disp}
+                        else if tool.indexOf("Gated") != -1
+                            - var tool_disp = tool.slice(13)
+                            th.indicators GDVD >= #{tool_disp}
+                        else if tool == 'missing AON VL'
+                            pass
+                        else if tool == 'missing AON v4'
+                            pass
+  
+                        else if tool == 'HIP No Power'
+                            pass
+
+                        else if tool == 'HIP <50% vias'
+                            pass 
+
+                        else if tool == 'unbounded AON'
+                            pass
+
+                        else if tool == 'glbdrv v6 missing'
+                            pass
+                        else if tool == 'glbdrv v5 missing'
+                            pass
+                        else if tool == 'complete_date'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:125px') #{tool}
+                        else if tool == 'dfmtail_active'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') #{tool}
+                        else if tool == 'dfmtail_float'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:110px') #{tool}
+                        else if tool == 'dfmtail_longactive'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:150px') #{tool}
+                        else if tool == 'misscontainer'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') #{tool}
+                        else if tool == 'drc_PWR_HU'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:110px') #{tool}
+                        else if tool == 'pg_opens'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'stair'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:176px',onclick="sortTable("+table1count+")") StaIR HMH => 4.8%   StaIR UMH => 6.0% 
+                        else if tool == 'stair_worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") StaIR_WC
+                        else if tool == 'dvd'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") vnn* DynIR => 16%  vcc* DynIR => 18%
+                        else if tool == 'dvd22percent'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") DynIR => 22%
+                        else if tool == 'dvdA0_signoff'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") DynIR Final A0
+                        else if tool == 'dvd_worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") DynIR_WC
+                        else if tool == 'dvdlowstafreq'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") DynIR_LowFreq
+                        else if tool == 'dvd_timing_final'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") dvd_timing_final
+                        else if tool == 'sig.metal.avg'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") INDU_sig.metal.AVG > 100%
+                        else if tool == 'sig.metal.peak'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") INDU_sig.metal.PEAK > 100%
+                        else if tool == 'sig.metal.rms'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") INDU_sig.metal.rms > 100%
+                        else if tool == 'power.metal.avg'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") INDU_pwr.metal.AVG > 100%
+                        else if tool == 'power.metal.peak'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") INDU_pwr.metal.PEAK > 100%
+                        else if tool == 'power.metal.rms'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") INDU_pwr.metal.rms > 100%
+                        else if tool == 'sig.via.avg'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") INDU_sig.via.AVG > 100%
+                        else if tool == 'sig.via.peak'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") INDU_sig.via.PEAK > 100%
+                        else if tool == 'sig.via.rms'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") INDU_sig.via.rms > 100%
+                        else if tool == 'power.via.avg'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") INDU_pwr.via.AVG > 100%
+                        else if tool == 'power.via.peak'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") INDU_pwr.via.PEAK > 100%
+                        else if tool == 'power.via.rms'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") INDU_pwr.via.rms > 100%
+                        else if tool == 'power.metal.avg.worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') INDU_pwr.metal.AVG.WC
+                        else if tool == 'power.via.avg.worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') INDU_pwr.via.AVG.WC
+                        else if tool == 'power.metal.peak.worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') INDU_pwr.metal.PEAK.WC
+                        else if tool == 'sig.metal.peak.worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') INDU_sig.metal.PEAK.WC
+                        else if tool == 'sig.metal.rms.worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') INDU_sig.metal.rms.WC
+                        else if tool == 'power.metal.peak.a0.tapein'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.PEAK Final A0						
+                        else if tool == 'sig.metal.avg_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_sig.metal.AVG > 100%
+                        else if tool == 'sig.metal.peak_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_sig.metal.PEAK > 100%
+                        else if tool == 'sig.metal.rms_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_sig.metal.RMS > 100%
+                        else if tool == 'sig.metal.rms.150_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_sig.metal.RMS > 150%
+                        else if tool == 'power.metal.avg_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.AVG > 100%
+                        else if tool == 'power.metal.peak_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.PEAK > 100%
+                        else if tool == 'power.metal.rms_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.RMS > 100%
+                        else if tool == 'sig.via.avg_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_sig.via.AVG > 100%
+                        else if tool == 'sig.via.peak_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_sig.via.PEAK > 100%
+                        else if tool == 'sig.via.rms_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_sig.via.RMS > 100%
+                        else if tool == 'power.via.avg_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_pwr.via.AVG > 100%
+                        else if tool == 'power.via.peak_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_pwr.via.PEAK > 100%
+                        else if tool == 'power.via.rms_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_pwr.via.RMS > 100%
+                        else if tool == 'power.metal.avg.a0final_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.AVG > 200%
+                        else if tool == 'power.via.avg.a0final_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_pwr.via.AVG > 200%
+                        else if tool == 'power.metal.peak.a0final_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.PEAK > 110%
+                        else if tool == 'sig.metal.peak.a0final_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_sig.metal.PEAK > 110%	
+                        else if tool == 'power.metal.avg.105_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.AVG > 105%
+                        else if tool == 'power.via.avg.105_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px',onclick="sortTable("+table1count+")") DT_pwr.via.AVG > 105%
+                        else if tool == 'power.metal.peak.105_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_pwr.metal.PEAK > 105%
+                        else if tool == 'sig.metal.peak.105_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px',onclick="sortTable("+table1count+")") DT_sig.metal.PEAK > 105%			
+                        else if tool == 'power.metal.avg.worstcase_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') DT_pwr.metal.AVG.WC
+                        else if tool == 'power.via.avg.worstcase_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px') DT_pwr.via.AVG.WC
+                        else if tool == 'power.metal.peak.worstcase_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') DT_pwr.metal.PEAK.WC
+                        else if tool == 'sig.metal.peak.worstcase_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') DT_sig.metal.PEAK.WC
+                        else if tool == 'sig.metal.rms.worstcase_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') DT_sig.metal.RMS.WC
+                        else if tool == 'ward'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:545px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'ward_dt'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:545px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'ward_ind'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:545px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'latest_dbtag'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:285px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'ir_dbtag'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:285px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'em_dbtag'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:285px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'latest_checkin_date'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:285px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'sh'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") Self-heat >20
+                        else if tool == 'sf'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") I/Idr => 2
+                        else if tool == '260rescheck'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") 260rescheck
+                        else if tool == '400rescheck'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px',onclick="sortTable("+table1count+")") 400rescheck
+                        else if tool == 'vdm'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px',onclick="sortTable("+table1count+")") vdm
+                        else if tool == 'odi'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px',onclick="sortTable("+table1count+")") odi
+                        else if tool == 'rescheck_worstcase'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:93px') rescheck_worstcase
+                        else if tool == 'ir_md_def'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') ir_md_def
+                        else if tool == 'em_md_def'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') em_md_def
+                        else if tool == 'reused'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:93px') reused
+                        else if tool == 'fit_value'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:93px') fit_value
+                        else if tool == 'powerfit'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:115px') temperature
+                        else if tool == 'apl_cap_check'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:145px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'apl_current_check'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:145px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'ccs_timing_check'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:145px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'lef_check'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'lib_check'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'lib_nldm'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'spef_check'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'timing_window'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") #{tool}
+                        else if tool == 'timing_slew'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px',onclick="sortTable("+table1count+")") #{tool}
+                        else
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') #{tool}
+
+            tbody
+                for key, part in testing
+                    tr
+                        td #{part}
+    
+                        for tool in Tools
+                            - var val 
+                            - if(key[tool] < 0){
+                            -    val = 0
+                            - }
+                            - else{
+                            -    val = key[tool]
+                            - }
+                            if tool.indexOf('drcdf_base1') != -1 & val > 0
+                                td
+                                    a(href="/rvmtlsocnk0violations/loadviolation/?partition="+part+"&viol_type="+"drcdf_base1", data-toogle="tooltip", title=part + " " + tool) #{val}
+                            else if tool.indexOf('drcdf_base2') != -1 & val > 0
+                                td
+                                    a(href="/rvmtlsocnk0violations/loadviolation/?partition="+part+"&viol_type="+"drcdf_base2", data-toogle="tooltip", title=part + " " + tool) #{val}
+                            else if tool.indexOf("complete_date") != -1
+                                td #{val}
+                            else if tool.indexOf("ward") != -1
+                                td #{val}
+                            else if tool.indexOf("nlib_source") != -1
+                                td #{val}
+                            else if tool.indexOf("dbtag") != -1
+                                td #{val}
+                            else if tool.indexOf("checkin_date") != -1
+                                td #{val}
+                            else if tool.indexOf("Gated") != -1 & val > 0
+                                td
+                                    a(href="/rvmtlsocnk0violations/loadviolation/?partition="+part+"&viol_type="+"gdvd", data-toogle="tooltip", title="View violations") #{val}
+                            else if tool.indexOf("Ungated") != -1 & val > 0
+                                td
+                                    a(href="/rvmtlsocnk0violations/loadviolation/?partition="+part+"&viol_type="+"udvd", data-toogle="tooltip", title="View violations") #{val}
+                            else if tool.indexOf('worstcase') != -1 
+                                td #{val}
+                            else if tool == 'missing AON VL'
+                                pass
+                            else if tool == 'missing AON v4'
+                                pass
+                            else if tool == 'HIP No Power'
+                                pass
+                            else if tool == 'reused'
+                                td #{val}
+                            else if tool == 'fit_value'
+                                td #{val}
+                            else if tool == 'ir_md_def'
+                                td #{val}
+                            else if tool == 'em_md_def'
+                                td #{val}
+                            else if tool == 'HIP <50% vias'
+                                pass 
+                            else if tool == 'unbounded AON'
+                                pass
+
+                            else if tool == 'glbdrv v6 missing'
+                                pass
+                            else if tool == 'glbdrv v5 missing'
+                                pass
+                            else if tool == 'vdm'
+                                td #{val}
+                            else if tool == 'odi'
+                                td #{val}
+                            else
+                                td 
+                                    a(href="/rvmtlsocnk0violations/loadviolation/?partition="+part+"&viol_type="+tool, data-toogle="tooltip", title=part + " " + tool) #{val}
+
+    script(type='text/javascript', src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+    script(type="text/javascript", src="https://milankyncl.github.io/jquery-copy-to-clipboard/jquery.copy-to-clipboard.js")
+    script(src="searchfilterrv.js")
+    script(src='copytext.js')
+    script(src="../loadviolations.js")
+    script.
+        $('[data-toggle="tooltip"]').tooltip(); 
+
+

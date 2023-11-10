@@ -1,0 +1,69 @@
+extends layout
+
+block content
+
+    h1 MD Home Page!
+
+    p This is an awesome webpage dedicated to LV and RV runs! Find different links for runs and their status.
+
+    p(style='font-style: italic; font-weight: 500;') For the best user experience, please use Google Chrome. 
+
+    div
+        ul#status_pages
+            li
+                a(href="/rvindicatormtlcs0") RV MTLCS0 Indicators
+                p RV Indicators for partitions for MTLCS0
+            li
+                a(href="/rvindicatormtlce0") RV MTLCE0 Indicators
+                p RV Indicators for partitions for MTLCE0
+            li
+                a(href="/rvindicatormtlsocnc0") RV MTLSOCNC0 Indicators
+                p RV Indicators for partitions for MTLSOCNC0
+            li
+                a(href="/rvindicatormtlsocnk0") RV MTLSOCNK0 Indicators
+                p RV Indicators for partitions for MTLSOCNK0
+            li
+                a(href="/rvindicatormtlsocsnb0") RV MTLSOCSNB0 Indicators
+                p RV Indicators for partitions for MTLSOCSNB0
+            li
+                a(href="/rvindicatorarlca0") RV ARLCPXA0 Indicators
+                p RV Indicators for partitions for ARLCPXA0
+            li
+                a(href="/rvindicatorarlcsp0") RV ARLCSP0 Indicators
+                p RV Indicators for partitions for ARLCSP0
+            li
+                a(href="/rvindicatorarlcb0") RV ARLCB0 Indicators
+                p RV Indicators for partitions for ARLCB0
+            li
+                a(href="/rvindicatorarlcj0") RV ARLCJ0 Indicators
+                p RV Indicators for partitions for ARLCJ0
+            li
+                a(href="/rvindicatorarlcr0") RV ARLCR0 Indicators
+                p RV Indicators for partitions for ARLCR0
+            li
+                a(href="/rvindicatorptla0") RV PTLA0 Indicators
+                p RV Indicators for partitions for PTLA0
+            li
+                a(href="/rvindicatorarlcpa0") RV ARLCPA0 Indicators
+                p RV Indicators for partitions for ARLCPA0
+            li
+                a(href="/rvindicatorarlcpb0") RV ARLCPB0 Indicators
+                p RV Indicators for partitions for ARLCPB0		
+            li
+                a(href="/rvindicatorarlcpb0_preswap") RV ARLCPB0 Pre-Swap Indicators
+                p RV Indicators for partitions for ARLCPB0 Pre-Swap			
+
+    div#updates
+        p The website updates with changes on a daily basis. New updates:
+        ul
+            li More PDN indicators added for B0 and SP0 and mtlc
+            li All violations accessible from indicator pages 
+            li Search bar requests are saved 
+
+    div
+        p#maintainer Website maintained by PDN
+
+    div
+       .image-block
+            img#logo(src="/images/ddg.PNG" alt="DDG Logo")
+            img#logo(src="/images/intel.png" alt="Intel Logo")

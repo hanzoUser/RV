@@ -1,0 +1,35 @@
+#dropdowndiv1{
+    text-align:center;
+}
+
+#dropdowndiv2{
+    text-align:center;
+}
+
+#addnew{
+    width: 75px;
+    margin: 10px 0px;
+}
+
+#dropdownMenu1{
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#dropdownMenu2{
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#indoverride{
+    height: 60px;
+}
+
+#alloverride{
+    /* display: None; */
+    height: 300px;
+}
+
+#editor1{
+    border: 1px solid lightgrey;
+}

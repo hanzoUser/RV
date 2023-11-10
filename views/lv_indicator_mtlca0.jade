@@ -1,0 +1,189 @@
+extends layout
+
+block content
+
+    div
+        a(id="back", href="/") Go back
+
+    div
+        h2 MTLCA0 LV Partition Indicators
+        h3 Last Updated at : #{lastupdate}
+        h3 Data extracted from : #{datapath}
+
+    div
+        input(type='text', id="rawsearch" ,placeholder= "Type to search...")
+        button.btn.btn-primary(id="clear_raw_filter", type='button') Clear Filter 
+
+    div
+
+        table.table.table-striped
+            thead
+                tr
+                    th.indicators(style="width:162px") Partition
+
+                    - console.log(Tools)
+                    for tool in Tools
+                        - console.log(tool)
+                        if tool.indexOf("Ungated") != -1
+                            - var tool_disp = tool.slice(14)
+                            th.indicators UDVD >= #{tool_disp}
+                        else if tool.indexOf("Gated") != -1
+                            - var tool_disp = tool.slice(13)
+                            th.indicators GDVD >= #{tool_disp}
+                        else if tool == 'missing AON VL'
+                            pass
+                        else if tool == 'missing AON v4'
+                            pass
+  
+                        else if tool == 'HIP No Power'
+                            pass
+
+                        else if tool == 'HIP <50% vias'
+                            pass 
+
+                        else if tool == 'unbounded AON'
+                            pass
+
+                        else if tool == 'glbdrv v6 missing'
+                            pass
+                        else if tool == 'glbdrv v5 missing'
+                            pass
+                        else if tool == 'complete_date'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px') #{tool}
+                        else if tool == 'checkins_date'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:156px') #{tool}
+                        else if tool == 'check_legality'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:125px') #{tool}
+                        else if tool == 'dfmtail_active'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') #{tool}
+                        else if tool == 'dfmtail_float'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:110px') #{tool}
+                        else if tool == 'dfmtail_longactive'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:150px') #{tool}
+                        else if tool == 'misscontainer'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:120px') #{tool}
+                        else if tool == 'drc_PWR_HU'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:110px') #{tool}
+                        else if tool == 'check_cbc_boundary'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:96px') #{tool}
+                        else if tool == 'check_cbc_placement'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:96px') #{tool}
+                        else if tool == 'check_cells_within_voltage_area'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:112px') #{tool}
+                        else if tool == 'check_edge_terminals_below_spec_layer'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:107px') #{tool}
+                        else if tool == 'check_ports_missing_terminal'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:112px') #{tool}
+                        else if tool == 'check_power_domains_missing_voltage_areas'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:115px') #{tool}
+                        else if tool == 'check_secondary_power_grid'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:140px') #{tool}
+                        else if tool == 'check_terminals_shorts'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') #{tool}
+                        else if tool == 'check_va_dimensions'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:110px') #{tool}
+                        else if tool == 'check_pdfx_content'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') #{tool}
+                        else if tool == 'check_secondary_pg_cells'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:140px') #{tool}
+                        else if tool == 'check_illegal_net_names'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:115px') #{tool}
+                        else if tool == 'check_additional_td_route_objects'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:140px') #{tool}
+                        else if tool == 'check_port_tie_offs'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') #{tool}
+                        else if tool == 'check_tieoff_connection'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') #{tool}
+                        else if tool == 'check_dangling_ports'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:130px') #{tool}
+                        else if tool == 'check_ports_with_multi_terms'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') #{tool}
+                        else if tool == 'check_terminals_not_on_track'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') #{tool}
+                        else if tool == 'check_terminals_legal_width'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') #{tool}
+                        else if tool == 'check_shorts'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px') #{tool}
+                        else if tool == 'check_opens'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:108px') #{tool}
+                        else if tool == 'check_nonedge_terminals_minlength'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') #{tool}
+                        else if tool == 'check_min_channel'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') #{tool}
+                        else if tool == 'check_hip_pg'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:115px') #{tool}
+                        else if tool == 'check_ps_service_area'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:135px') #{tool}
+                        else if tool == 'check_macro_abutment'
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:115px') #{tool}
+                        else
+                            th.indicators(data-toogle="tooltip", title=tooltip_mapping[tool], style = 'width:105px') #{tool}
+
+            tbody
+                for key, part in testing
+                    tr
+                        td #{part}
+    
+                        for tool in Tools
+                            - var val 
+                            - if(key[tool] < 0){
+                            -    val = 0
+                            - }
+                            - else{
+                            -    val = key[tool]
+                            - }
+                            if tool.indexOf('drcdf_base1') != -1 & val > 0
+                                td
+                                    a(href="/lvmtlc0aviolations/loadviolation/?partition="+part+"&viol_type="+"drcdf_base1", data-toogle="tooltip", title=part + " " + tool) #{val}
+                            else if tool.indexOf('drcdf_base2') != -1 & val > 0
+                                td
+                                    a(href="/lvmtlc0aviolations/loadviolation/?partition="+part+"&viol_type="+"drcdf_base2", data-toogle="tooltip", title=part + " " + tool) #{val}
+                            else if tool.indexOf("complete_date") != -1
+                                td #{val}
+                            else if tool.indexOf("checkins_date") != -1
+                                td #{val}
+                            else if tool.indexOf("tcic") != -1
+                                td #{val}
+                            else if tool.indexOf("check_legality") != -1
+                                td #{val}
+                            else if tool.indexOf("opens") != -1
+                                td #{val}
+                            else if tool.indexOf("shorts") != -1
+                                td #{val}
+                            else if tool.indexOf("Gated") != -1 & val > 0
+                                td
+                                    a(href="/lvmtlc0aviolations/loadviolation/?partition="+part+"&viol_type="+"gdvd", data-toogle="tooltip", title="View violations") #{val}
+                            else if tool.indexOf("Ungated") != -1 & val > 0
+                                td
+                                    a(href="/lvmtlc0aviolations/loadviolation/?partition="+part+"&viol_type="+"udvd", data-toogle="tooltip", title="View violations") #{val}
+                            else if tool == 'missing AON VL'
+                                pass
+                            else if tool == 'missing AON v4'
+                                pass
+  
+                            else if tool == 'HIP No Power'
+                                pass
+
+                            else if tool == 'HIP <50% vias'
+                                pass 
+
+                            else if tool == 'unbounded AON'
+                                pass
+
+                            else if tool == 'glbdrv v6 missing'
+                                pass
+                            else if tool == 'glbdrv v5 missing'
+                                pass
+                            else
+                                td 
+                                    a(href="/lvmtlc0aviolations/loadviolation/?partition="+part+"&viol_type="+tool, data-toogle="tooltip", title=part + " " + tool) #{val}
+
+    script(type='text/javascript', src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+    script(type="text/javascript", src="https://milankyncl.github.io/jquery-copy-to-clipboard/jquery.copy-to-clipboard.js")
+    script(src="searchfilter.js")
+    script(src='copytext.js')
+    script(src="../loadviolations.js")
+    script.
+        $('[data-toggle="tooltip"]').tooltip(); 
+
+
